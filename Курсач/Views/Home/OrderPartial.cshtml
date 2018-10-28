@@ -1,0 +1,203 @@
+﻿@model IEnumerable<Курсач.Models.Order>
+<head>
+    <style>
+        @@media (max-width:650px) {
+            .component {
+                background-image: none !important;
+            }
+        }
+
+        @@media (max-width:400px) {
+            .content {
+                padding-left: 0px;
+            }
+        }
+
+        .confirm {
+            display: inline-block;
+            width: 40% !important;
+            background-color: #000000db;
+            border-top-left-radius: 6%;
+            border-top-right-radius: 6%;
+            border-bottom: 1px solid white;
+            text-align: center;
+            color: white;
+            max-width: 480px;
+        }
+
+        body {
+            text-align: center;
+        }
+
+        hr {
+            margin: 2px;
+        }
+
+        .wrapper {
+            color: white;
+            display: inline-grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-rows: repeat(minmax(1,2), 100px);
+            text-align: center;
+            background: #000000db;
+            border-radius: 2%;
+        }
+
+        .controls {
+            margin-top: 10px;
+            margin-left: 10px;
+            border: 1px solid white;
+            margin-right: 0;
+            display: inline-grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .left-side {
+            text-align: left;
+            padding-top: 10px;
+            padding-left: 5px;
+        }
+
+        .add-remove-button {
+            float: left;
+            margin-top: 20px;
+        }
+
+            .add-remove-button > span {
+                font-size: 1.2em;
+            }
+
+        #map {
+            width: 95%;
+            height: 560px;
+            margin: 10px;
+        }
+
+        .navig {
+        }
+
+        button, input {
+            margin-top: 5px;
+        }
+
+        .house {
+            width: 70px;
+            margin-left: 10px;
+        }
+
+
+
+        .controls > input {
+            width: 70%;
+        }
+
+        .internal {
+            width: 100%;
+            text-align: center;
+        }
+
+        .flags {
+            margin-top: 15px;
+            display: grid;
+        }
+
+        #traffic {
+            margin-top: 0;
+            width: 90%;
+        }
+
+        .flags > #date {
+            margin-top: 3%;
+            width: 100%;
+        }
+
+        .component {
+            background: url("../../Content/Cheat-cot.png") no-repeat;
+            background-position-y: 400%;
+        }
+
+        #optimise {
+            border-bottom-style: dotted;
+            margin-bottom: 0;
+        }
+
+            #optimise:hover {
+                color: #ffffff9c;
+            }
+
+        #autocomplete3, #autocomplete4, #autocomplete2, #house3, #house4, #house2 {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm("Order", "Home", FormMethod.Post, new { @class = "confirm" }))
+        {
+            <span> Оформить заказ по рассчитанному маршруту</span><hr />
+            <input type="hidden" id="resultats" name="results" value="none" />
+            @*<input type="hidden" id="user" name="user" value="@User.Identity.Name" />*@
+            <button id="yes-button button">
+                Оформить
+            </button>
+        }
+    </div>
+    <div class="wrapper">
+        <div class="component" id="component">
+            <div class="controls">
+                <div class="left-side">
+                    <div class="add-remove-button"></div>
+                    <span>Промежуточные точки</span><br />
+                    <button id="plus" class="button-plus button">+</button>
+                    <button id="minus" class="button button-minus">-</button>
+                    <div class="flags">
+                        <span>Расчет</span>
+                        <div>
+                            <input type="checkbox" id="IsChild" />
+                            <label for="IsChild">Детское кресло</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="IsOptimise" tex="sad" checked />
+                            <label for="IsOptimise" id="optimise" title="При количестве промежуточных точек более 2, маршрут строится оптимально в плане наименьшего расстояния">Оптимизировать маршрут</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="IsSoon" tex="sad" checked />
+                            <label for="IsSoon">Срочный заказ</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="IsShipment" />
+                            <label for="IsShipment">Грузоперевозки</label>
+                        </div>
+                        <div>
+                            <input type="datetime-local" id="date" max="3000-01-01T02:02:02.2" />
+                        </div>
+
+                        <div><span>Расстояние:</span><span id="distance" style="margin-left:2px;"></span></div>
+                        <div><span>Стоимость:</span><span id="cost" style="margin-left:2px;"></span></div>
+                    </div>
+                </div>
+                <div class="navig">
+                    <button id="traffic" class="traffic">Показать/скрыть пробки</button>
+                    @for (int i = 1; i < 6; i++)
+                    {
+                        string place = "Введите адрес";
+
+                        if (i == 5)
+                        {
+                            place = "Конечный пункт";
+                        }
+                        @Html.TextBox("autocomplete" + i, null, new { @onFocus = "geolocate()", @placeholder = place });
+                        @Html.TextBox("house" + i, null, new { @class = "house", @placeholder = "Дом" });
+            }
+                    <button id="result">Рассчитать маршрут</button>
+                </div>
+            </div>
+        </div>
+        <div id="map"></div>
+    </div>
+    <script src="../Scripts/map.control.js"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIiadJY-IXcTyRDxo9QOPJ0QbVY5eHDlc&libraries=places&callback=initMap">
+    </script>
+</body>

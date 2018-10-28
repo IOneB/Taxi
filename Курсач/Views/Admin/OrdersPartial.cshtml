@@ -1,0 +1,162 @@
+﻿@model Курсач.Models.ViewModel
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/3.0.6/footable.min.js"></script>
+<script>
+    jQuery(function () {
+        jQuery('.table').footable({
+            calculateWidthOverride: function () {
+                return { width: jQuery(window).width() };
+            },
+            breakpoints: {
+                mobile: 0
+                //tablet: 720,
+            }
+        });
+    })
+</script>
+<p style="color:red;">@(ViewBag.Error == null ? "" : ViewBag.Error)</p>
+<h4>Записи жмакабельны</h4>
+@*@using (Ajax.BeginForm("ClearOldOrders", new AjaxOptions { UpdateTargetId = "results" }))
+{
+    <button class="component" type="submit">Очистить старые заказы</button>
+}*@
+<div class="wrappertable">
+    <table class="table" >
+        <thead>
+            <tr >
+                <th>
+                    ID
+                </th>
+                <th>
+                    ID водителя
+                </th>
+                <th>
+                    Номер автомобиля
+                </th>
+                <th>
+                    Дата оформления заказа
+                </th>
+                <th>
+                    Дата начала исполнения
+                </th>
+                <th>
+                    Дата выполнения заказа
+                </th>
+                <th>
+                    Детское кресло
+                </th>
+                <th>
+                    Грузоперевозки
+                </th>
+                <th>
+                    Оптимизирован
+                </th>
+                <th>
+                    Телефон клиента
+                </th>
+                <th>
+                    Стоимость
+                </th>
+                <th>
+                    Статус
+                </th>
+                <th data-breakpoints="mobile tablet">
+                    Начало
+                </th>
+                <th data-breakpoints="mobile tablet">
+                    Конец
+                </th>
+                <th data-breakpoints="mobile tablet">
+                    1 пр. точка
+                </th>
+                <th data-breakpoints="mobile tablet">
+                    2 пр. точка
+                </th>
+                <th data-breakpoints="mobile tablet">
+                    3 пр. точка
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int j = -1;
+                foreach (var item in Model.Orders)
+                {
+                    j = j + 1;
+                <tr>
+                    <td>
+                        @item.OrderID
+                    </td>
+                    <td>
+                        @(item.Driver?.DriverID)
+                    </td>
+                    <td>
+                        @(item.Driver?.Car.CarNumber)
+                    </td>
+                    <td>
+                        @item.SystemStartTime
+                    </td>
+                    <td>
+                        @item.StartTime
+                    </td>
+                    <td>
+                        @(Model.States[j].StateName == "Завершен" || Model.States[j].StateName == "Отменен" ? @item.SystemEndTime.ToString() : "")
+                    </td>
+                    <td>
+                        @item.IsChild
+                    </td>
+                    <td>
+                        @item.IsShipment
+                    </td>
+                    <td>
+                        @item.IsOptimised
+                    </td>
+                    <td>
+                        @(item.ApplicationUser?.PhoneNumber)
+                    </td>
+                    <td>
+                        @(item.Cost + "р.")
+                    </td>
+                    <td>
+                        @Model.States[j].StateName
+                    </td>
+                    <td>
+                        @item.StartGPS
+                    </td>
+                    <td>
+                        @item.EndGPS
+                    </td>
+                    <td>
+                        @(item.IntermediateGPS1 == "null" ? "Нет" : item.IntermediateGPS1)
+                    </td>
+                    <td>
+                        @(item.IntermediateGPS2 == "null" ? "Нет" : item.IntermediateGPS2)
+                    </td>
+                    <td>
+                        @(item.IntermediateGPS3 == "null" ? "Нет" : item.IntermediateGPS3)
+                    </td>
+                </tr>
+            }
+                }
+        </tbody>
+    </table>
+</div>
+
+<div class="pages">
+
+    @using (Ajax.BeginForm("Modering", new AjaxOptions { UpdateTargetId = "results" }))
+    {
+        <input type="hidden" name="selected" value="orders" />
+        <div class="nav-button">
+            <button class="component" type="submit" name="navig" value="prev" @(ViewBag.NumberPage == 1 ? "disabled" : "")><</button>
+            <button class="component" type="submit" name="navig" value="next" @(ViewBag.NumberPage == ViewBag.TotalPages ? "disabled" : "")>></button>
+        </div>
+        <br />
+        <select class="page" name="page">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <option value=@i @(i == ViewBag.NumberPage ? "selected=\"selected\"" : "")>@i</option>
+            }
+        </select>
+        <button class="component" type="submit">Ok</button>
+    }
+</div>

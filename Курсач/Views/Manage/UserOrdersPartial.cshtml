@@ -1,0 +1,181 @@
+﻿@model Курсач.Models.ViewModel
+<h1>Оформленные заказы</h1>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/3.0.6/footable.min.js"></script>
+<script>
+    jQuery(function () {
+        jQuery('.table').footable({
+            calculateWidthOverride: function () {
+                return { width: jQuery(window).width() };
+            },
+            breakpoints: {
+                mobile: 0
+                //tablet: 720,
+            }
+        });
+    })
+</script>
+<style>
+    .pages{
+        max-width:100%;
+        text-align:center;
+        margin:0;
+    }
+</style>
+<h4>Записи жмакабельны</h4>
+<div class="wrappertable">
+    <table class="table adapt-table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    Дата оформления заказа
+                </th>
+                <th>
+                    Дата начала исполнения
+                </th>
+                <th>
+                    Дата выполнения заказа
+                </th>
+                <th>
+                    Оптимизирован
+                </th>
+                <th>
+                    Детское кресло
+                </th>
+                <th>
+                    Грузоперевозки
+                </th>
+                <th>
+                    Расстояние
+                </th>
+                <th>
+                    Стоимость
+                </th>
+                <th>
+                    Статус заказа
+                </th>
+                <th data-breakpoints="mobile tablet">
+                    Начало
+                </th>
+                <th data-breakpoints="mobile tablet">
+                    Конец
+                </th>
+                <th data-breakpoints="mobile tablet">
+                    1 пр. точка
+                </th>
+                <th data-breakpoints="mobile tablet">
+                    2 пр. точка
+                </th>
+                <th data-breakpoints="mobile tablet">
+                    3 пр. точка
+                </th>
+                <th data-breakpoints="mobile tablet">ФИО Водителя</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Orders.Count() == 0)
+            {
+                <tr>
+                    Заказов нет, но вы держитесь там
+                </tr>
+            }
+            @{
+                int j = -1;
+                foreach (var item in Model.Orders)
+                {
+                    j= j + 1;
+                <tr>
+                    <td>
+                        +
+                    </td>
+                    <td>
+                        @item.SystemStartTime
+                    </td>
+                    <td>
+                        @item.StartTime
+                    </td>
+                    <td>
+                          @(Model.States[j].StateName == "Завершен" || Model.States[j].StateName == "Отменен" ? @item.SystemEndTime.ToString() : "")
+                      </td>
+  
+                      <td>
+                          @(item.IsOptimised ? "Да" : "Нет")
+                      </td>
+  
+                      <td>
+                          @(item.IsChild ? "Да" : "Нет")
+                      </td>
+
+                      <td>
+                          @(item.IsShipment ? "Да" : "Нет")
+                      </td>
+  
+                      <td>
+                          @item.Distance
+                      </td>
+  
+                      <td>
+                          @(item.Cost + " руб.")
+                      </td>
+  
+                      <td>
+                          @Model.States[j].StateName
+                      </td>
+  
+                      <td>
+                          @item.StartGPS
+                      </td>
+  
+                      <td>
+                          @item.EndGPS
+                      </td>
+  
+                      <td>
+                          @(item.IntermediateGPS1 == "null" ? "Нет" : item.IntermediateGPS1)
+                      </td>
+  
+                      <td>
+                          @(item.IntermediateGPS2 == "null" ? "Нет" : item.IntermediateGPS2)
+                      </td>
+  
+                      <td>
+                          @(item.IntermediateGPS3 == "null" ? "Нет" : item.IntermediateGPS3)
+                      </td>
+  
+                      <td>
+                          @(item.Driver?.FirstName + " " + item.Driver?.LastName + " " + item.Driver?.Patronymic)
+                      </td>
+                    @*<td>
+
+                            @if (item.DriverID == null)
+                        {
+                                @Html.ActionLink("Отменить", "Cancel", "Manage", new { user = User.Identity.Name, id = item.OrderID }, new { @vertical_align = "middle", @class = "manage-button" })
+                            }
+                        </td>*@
+                </tr>
+                    }
+                }
+        </tbody>
+    </table>
+</div>
+
+<br />
+<div class="pages">
+
+    @using (Ajax.BeginForm("UserOrdersPartial", new AjaxOptions { UpdateTargetId = "orders" }))
+    {
+        <input type="hidden" name="user" value="@User.Identity.Name" />
+        <div class="nav-button">
+            <button class="component" type="submit" name="navig" value="prev" @(ViewBag.NumberPage == 1 ? "disabled" : "")><</button>
+            <button class="component" type="submit" name="navig" value="next" @(ViewBag.NumberPage == ViewBag.TotalPages ? "disabled" : "")>></button>
+        </div>
+        <br />
+        <select class="page" name="page">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <option value=@i @(i == ViewBag.NumberPage ? "selected=\"selected\"" : "")>@i</option>
+            }
+        </select>
+        <button class="component" type="submit">Ok</button>
+    }
+</div>

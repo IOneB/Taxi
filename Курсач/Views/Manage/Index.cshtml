@@ -1,0 +1,79 @@
+﻿@model Курсач.Models.IndexViewModel
+@{
+    ViewBag.Title = "Управление";
+}
+<style>
+    .component-view {
+        display:block;
+    }
+    #orders{
+        max-width:100%;
+        overflow:auto;
+        display:block;
+    }
+    form{
+        text-align:center;
+    }
+</style>
+@Scripts.Render("~/scripts/jquery-1.10.2.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/3.0.6/footable.min.js"></script>
+<script>
+    jQuery(function () {
+        jQuery('.table').footable({
+            calculateWidthOverride: function () {
+                return { width: jQuery(window).width() };
+            },
+            breakpoints: {
+                mobile: 480,
+                tablet: 720,
+                desktop: 1024
+            }
+        });
+    })
+</script>
+<h2>@ViewBag.Title.</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h4>Здравствуйте, @(Model.FIO!=null?Model.FIO:Model.UserName)!</h4>
+    <hr />
+    <dl>
+        <dt>Пароль:</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Смена пароля", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Создать", "SetPassword")
+            }
+            ]
+        </dd>
+        <dt>Телефон:</dt>
+        <dd>
+            @Model.PhoneNumber
+        </dd>
+        <dt>Редактировать аккаунт</dt>
+        <dd>
+            @using (Html.BeginForm("Edit", "Manage"))
+            {
+                <button class="component-view" type="submit">Клац</button>
+            }
+        </dd>
+    </dl>
+    @using (Ajax.BeginForm("UserOrdersPartial", new AjaxOptions { UpdateTargetId = "orders" }))
+    {
+        <dl style="text-align:left">
+            <dt>Отобразить заказы:</dt>
+            <dd>
+                <button class="component-view" type="submit">Показать</button>
+            </dd>
+        </dl>
+    }
+    <div id="orders">
+    </div>
+</div>
+

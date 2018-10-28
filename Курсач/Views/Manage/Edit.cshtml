@@ -1,0 +1,42 @@
+﻿@model Курсач.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Редактирование аккаунта</h2>
+@using (Html.BeginForm("SaveChanges", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    <h4>@Model.UserName</h4>
+    <h4 style="color:red;text-align:center;">@(ViewBag.Error == null ? "" : ViewBag.Error)</h4>
+    <hr />
+    <div class="form-group">
+        <label class="control-label col-md-2" for="FIO">ФИО</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.FIO, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.FIO, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2" for="PhoneNumber">Телефон</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @pattern = @"[1-9]{3}-\d{3}-\d{2}-\d{2}$" } })
+            <label for="" style="font-size:0.8em;">    В формате 123-456-78-90</label>
+            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <p><b>Скидка</b> - @(Model.Discount.Reason + " (" + Model.Discount.Size + "%)" )</p>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Сохранить" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Вернуться", "Index")
+</div>

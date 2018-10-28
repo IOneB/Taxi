@@ -1,0 +1,56 @@
+﻿@model Курсач.Models.Driver
+<h4>Водители</h4>
+@using (Ajax.BeginForm("SaveDriver", "Admin", new AjaxOptions { UpdateTargetId = "results" }, new { @class = "ajax-form" }))
+{
+    <div>
+        <label for="Login">Логин</label>
+        <input class="manage-input" id="Login" name="Login" type="text">
+    </div>
+    <div>
+        <label for="Password">Пароль</label>
+        <input class="manage-input" id="Password" name="Password" type="password" >
+    </div>
+    <div>
+        <label for="Phone">Телефон</label>
+        <input class="manage-input" id="Phone" name="Phone" type="text" pattern=@(@"[1-9]{3}-\d{3}-\d{2}-\d{2}$")>
+    </div>
+    <div>
+        <label for="FirstName" >Имя</label>
+        <input class="manage-input" id="FirstName" name="FirstName" type="text" style="margin-left:15px;">
+    </div>
+    <div>
+        <label for="LastName">Фамилия</label>
+        <input class="manage-input" id="LastName" name="LastName" type="text" />
+    </div>
+    <div>
+        <label for="Patronymic">Отчество</label>
+        <input  class="manage-input" id="Patronymic" name="Patronymic" type="text" />
+    </div>
+    <div>
+        <label for="BirthDate">Дата рождения</label>
+        <input  type="date" class="manage-input" id="BirthDate" name="BirthDate">
+    </div>
+    <div>
+        <label for="CarID">Автомобиль</label>
+        <select id="CarID" name="CarID">
+            @foreach (var car in ViewBag.Cars)
+            {
+                <option value=@car.CarID>@car.CarNumber</option>
+            }
+        </select>
+
+    </div>
+    <div>
+        <input type="submit" value="Добавить" class="manage-button" onclick="
+    getElementById('modal').style.display = 'none';
+    getElementById('lock').style.overflow = 'auto';
+    " style="margin-top:5px;" />
+        <button type="button"
+                onclick="
+    getElementById('modal').style.display = 'none';
+    getElementById('lock').style.overflow = 'auto';
+    ">
+            Отмена
+        </button>
+    </div>
+}

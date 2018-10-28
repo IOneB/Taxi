@@ -1,0 +1,27 @@
+﻿@model Курсач.Models.Discount
+<h4>Скидки</h4>
+@using (Ajax.BeginForm("SaveDiscount", "Admin", new AjaxOptions { UpdateTargetId = "results" },new { @class = "ajax-form" }))
+{
+    <input type="hidden" name="id" value="@(Model == null ? "" : Model.DiscountID.ToString())" />
+    <div>
+        <label for="Size">Размер</label>
+        <input id="Size" name="Size" type="text" value="@(Model == null ? "" : Model.Size.ToString())">
+    </div>
+    <div>
+        <label for="Reason">Причина</label>
+        <textarea class ="area" id="Reason" name="Reason" type="text" value="@(Model == null ? "" : Model.Reason)">@(Model == null ? "" : Model.Reason)</textarea>
+    </div>
+    <div>
+        <input type="submit" value="@(Model == null ? "Добавить" : "Сохранить изменения")" class="manage-button" onclick="
+    getElementById('modal').style.display = 'none';
+    getElementById('lock').style.overflow = 'auto';
+    " style="margin-top:5px;" />
+        <button type="button"
+                onclick="
+    getElementById('modal').style.display = 'none';
+    getElementById('lock').style.overflow = 'auto';
+    ">
+            Отмена
+        </button>
+    </div>
+}

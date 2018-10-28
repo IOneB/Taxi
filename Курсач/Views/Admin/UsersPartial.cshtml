@@ -1,0 +1,100 @@
+﻿@model Курсач.Models.ViewModel
+@using Курсач.Models;
+@using System.Net.Http;
+ @using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.Owin;
+<p style="color:red;">@(ViewBag.Error == null ? "" : ViewBag.Error)</p>
+<div class="wrappertable">
+    <table class="table adapt-table">
+        <tr>
+            <th>
+                ФИО
+            </th>
+            <th>
+                UserName
+            </th>
+            <th>
+                Номер телефона
+            </th>
+            <th>
+                Кол-во заказов
+            </th>
+            <th>
+                Общая сумма
+            </th>
+            <th>
+                Скидка
+            </th>
+            <th>
+                Роль
+            </th>
+            <th>
+                Редактировать скидку
+            </th>
+        </tr>
+
+        @foreach (var item in Model.Users)
+        {
+            ApplicationUserManager userManager = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            double sum = 0;
+            <tr>
+                <td>
+                    @item.FIO
+                </td>
+                <td>
+                    @item.UserName
+                </td>
+                <td>
+                    @item.PhoneNumber
+                </td>
+                <td>
+                    @item.Orders.Count
+                </td>
+                <td>
+                    @{
+                        foreach (Order order in item.Orders)
+                        {
+                            sum += order.Cost;
+                        }
+                    }
+                    @sum
+                </td>
+                <td>
+                    @(item.Discount?.Reason + " (" + item.Discount?.Size +")")
+                </td>
+                <td>
+                    @userManager.GetRoles(item.Id).ToList()[0]
+                </td>
+                <td  class="man-but">
+                    @using (Ajax.BeginForm("UserDiscountFormPartial", "Admin", new AjaxOptions { UpdateTargetId = "form-content" }))
+                    {
+                        <button onClick="getElementById('modal').removeAttribute('style'); getElementById('lock').style.overflow = 'hidden';">
+                            жмак
+                        </button>
+                            <input type="hidden" name="id" value=@item.Id class="manage-button" />
+                    }
+                </td>
+            </tr>
+                        }
+    </table>
+</div>
+
+<div class="pages">
+
+    @using (Ajax.BeginForm("Modering", new AjaxOptions { UpdateTargetId = "results" }))
+    {
+        <input type="hidden" name="selected" value="users" />
+        <div class="nav-button">
+            <button class="component" type="submit" name="navig" value="prev" @(ViewBag.NumberPage == 1 ? "disabled" : "")><</button>
+            <button class="component" type="submit" name="navig" value="next" @(ViewBag.NumberPage == ViewBag.TotalPages ? "disabled" : "")>></button>
+        </div>
+        <br />
+        <select class="page" name="page">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <option value=@i @(i == ViewBag.NumberPage ? "selected=\"selected\"" : "")>@i</option>
+            }
+        </select>
+        <button class="component" type="submit">Ok</button>
+    }
+</div>

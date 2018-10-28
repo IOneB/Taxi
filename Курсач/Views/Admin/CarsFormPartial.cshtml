@@ -1,0 +1,48 @@
+﻿@model Курсач.Models.Car
+<h4>Машины</h4>
+@using (Ajax.BeginForm("SaveCar", "Admin", new AjaxOptions { UpdateTargetId = "results" }, new { @class = "ajax-form" }))
+{
+    <input type="hidden" name="id" value="@(Model == null ? "" : Model.CarID.ToString())" />
+    <div>
+        <label for="CarNumber">Номер авто</label>
+        <input id="CarNumber" name="CarNumber" type="text" value="@(Model == null ? "" : Model.CarNumber)">
+    </div>
+    <div>
+        <label for="ReleaseYear">Год выпуска</label>
+        <input id="ReleaseYear" name="ReleaseYear" type="date" value=@(Model == null ?
+        ""
+        :
+        Model.ReleaseYear.Year+"-"+(Model.ReleaseYear.Month<10?"0"+Model.ReleaseYear.Month:Model.ReleaseYear.Month.ToString())+"-"+ (Model.ReleaseYear.Day < 10 ? "0" + Model.ReleaseYear.Day : Model.ReleaseYear.Day.ToString()))>
+    </div>
+    <div>
+        <label for="ColourID">Цвет</label>
+        <select id="ColourID" name="ColourID">
+            @foreach (var colour in ViewBag.Colours)
+            {
+                <option value=@colour.ColourID @(Model != null ? (colour.ColourName == Model.Colour.ColourName ? "selected=\"selected\"" : "") : "")>@colour.ColourName</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label for="BrandID">Марка</label>
+        <select id="BrandID" name="BrandID">
+            @foreach (var brand in ViewBag.Brands)
+            {
+                <option value=@brand.BrandID @(Model != null ? (brand.BrandName == Model.Brand.BrandName ? "selected=\"selected\"" : "") : "")>@brand.BrandName</option>
+            }
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="@(Model == null ? "Добавить" : "Сохранить изменения")" class="manage-button" onclick="
+    getElementById('modal').style.display = 'none';
+    getElementById('lock').style.overflow = 'auto';
+    " style="margin-top:5px;" />
+        <button type="button"
+                onclick="
+    getElementById('modal').style.display = 'none';
+    getElementById('lock').style.overflow = 'auto';
+    ">
+            Отмена
+        </button>
+    </div>
+}

@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Контактная информация";
+}
+<head>
+    <style>
+        .wrapper {
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            grid-template-rows: repeat(minmax(1,2), 100px);
+        }
+
+        .giglet {
+            padding-left: 15px;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto
+        }
+    </style>
+</head>
+<body>
+    <h1>Контактная информация о владельцах компании</h1>
+    <div class="wrapper">
+        <div>
+            <h2>Барабанов Иван Владимирович</h2>
+            Redmond, WA 98052-6699<br />
+            <abbr title="Phone">P:</abbr>
+            800.555.3535
+            <address><a href="~/Content/GTFO.html">Idite@lesom.ru</a></address>
+        </div>
+        <div>
+            <h2>Бартюк Максим Александрович</h2>
+            Redmond, WA 31022-8379<br />
+            <abbr title="Phone">P:</abbr>
+            425.555.0231
+            <address><a href="~/Content/GTFO.html">YaVas@ne.zval</a></address>
+        </div>
+    </div>
+    <br />
+    <hr />
+    <div class="giglet">
+        <h3>Форма обратной связи.</h3>
+        <form name="MyForm" action="~/Content/GTFO.html" method="get">
+            <p><input class="input" name="name" type="text" /> Ваше имя*</p>
+
+            <p><input class="input" name="email" type="text" /> Электронная почта*</p>
+
+            <p><input class="input" name="sub" type="text" /> Тема сообщения</p>
+
+            <p>Текст сообщения:<br /><textarea name="body" cols="1" rows="5" style="width:250px" /></textarea></p>
+            <p><input id="submit" value="Отправить" type="submit" /></p>
+        </form>
+    </div>
+</body>

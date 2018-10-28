@@ -1,0 +1,18 @@
+namespace Курсач.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class firstValid : DbMigration
+    {
+        public override void Up()
+        {
+            AlterColumn("dbo.Colours", "ColourName", c => c.String(nullable: false, maxLength: 50));
+        }
+        
+        public override void Down()
+        {
+            AlterColumn("dbo.Colours", "ColourName", c => c.String());
+        }
+    }
+}

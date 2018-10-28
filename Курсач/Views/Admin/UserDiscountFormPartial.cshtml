@@ -1,0 +1,28 @@
+﻿@model Курсач.Models.ApplicationUser
+<h4>Редактировать скидку</h4>
+@using (Ajax.BeginForm("SaveUserDiscount", "Admin", new AjaxOptions { UpdateTargetId = "results" }, new { @class = "ajax-form" }))
+{
+    <input type="hidden" name="id" value="@Model.Id.ToString()" />
+    <div>
+        <label for="DiscountID">Скидка</label>
+        <select id="DiscountID" name="DiscountID">
+            @foreach (var discount in ViewBag.Discounts)
+            {
+                <option value=@discount.DiscountID @(discount.DiscountID == Model.DiscountID? "selected=\"selected\"" : "")>@(discount.Size + " " + discount.Reason)</option>
+            }
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Сохранить" class="manage-button" onclick="
+    getElementById('modal').style.display = 'none';
+    getElementById('lock').style.overflow = 'auto';
+    " style="margin-top:5px;" />
+        <button type="button"
+                onclick="
+    getElementById('modal').style.display = 'none';
+    getElementById('lock').style.overflow = 'auto';
+    ">
+            Отмена
+        </button>
+    </div>
+}

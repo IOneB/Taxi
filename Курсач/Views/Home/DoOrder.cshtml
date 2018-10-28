@@ -1,0 +1,14 @@
+﻿@model Курсач.Models.Order
+
+@{
+    ViewBag.Title = "Оформление заказа";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Заказ такси</h1>
+@Html.Partial("OrderPartial")
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

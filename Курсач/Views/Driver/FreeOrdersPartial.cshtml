@@ -1,0 +1,142 @@
+﻿@model List<Курсач.Models.Order>
+<style>
+    .workspace {
+        padding: 0 20px;
+        margin: 5% 10%;
+        max-width: 670px;
+        min-height: 370px;
+    }
+
+    .hide,
+    .hide + label ~ .hiddenblock {
+        display: none;
+    }
+
+        .hide + label {
+            margin: 0;
+            margin-bottom: 10px;
+            padding: 0;
+            color: azure;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .hide:checked + label {
+            color: aqua;
+            border-bottom: 0;
+        }
+
+            .hide:checked + label + .hiddenblock {
+                display: block;
+                background: #efefef;
+                box-shadow: inset 3px 3px 10px #7d8e8f;
+                margin-left: 20px;
+                padding: 10px;
+            }
+
+        .hide + label:before {
+            background-color: #1e90ff;
+            color: #fff;
+            content: "\002B";
+            display: block;
+            float: left;
+            font-size: 14px;
+            font-weight: bold;
+            height: 16px;
+            line-height: 16px;
+            margin: 3px 5px;
+            text-align: center;
+            width: 16px;
+            border-radius: 50%;
+        }
+
+    label + .hiddenblock {
+        text-align: left;
+        color: black;
+    }
+
+    .hide:checked + label:before {
+        content: "\2212";
+    }
+    .controls{
+        display:grid;
+        grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+        grid-template-rows:repeat(auto-fill,70px);
+        grid-gap:1em 1em;
+    }
+    .act-but{
+        width:100%;
+        height:100%;
+    }
+
+</style>
+@Scripts.Render("~/scripts/jquery-1.10.2.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
+<body>
+    @{
+        if (ViewBag.Error != null)
+        {
+            <div style="text-align:center; color:red;">@ViewBag.Error</div>
+        }
+    }
+    <div class="workspace">
+        @{
+            if (ViewBag.Order == false)
+            {
+
+                for (int i = 0; i < Model.Count; i++)
+                {
+                    <input class="hide" id="hd-@i" type="checkbox" />
+                    <label for="hd-@i">Начало маршрута - @Model[i].StartGPS, Стоимость - @Model[i].Cost р., Расстояние - @Model[i].Distance км.</label>
+                    <div class="hiddenblock">
+                        <pre>Начало - @Model[i].StartGPS
+Конец - @Model[i].EndGPS
+@(Model[i].IntermediateGPS1 != "null" ? "Остановка - " + Model[i].IntermediateGPS1 + "\n" : "")@(Model[i].IntermediateGPS2 != "null" ? "Остановка - " + Model[i].IntermediateGPS2 + "\n" : "")@(Model[i].IntermediateGPS3 != "null" ? "Остановка - " + Model[i].IntermediateGPS3 + "\n" : "")Стоимость - @Model[i].Cost р.,
+Расстояние - @Model[i].Distance км.,
+@(Model[i].IsChild ? "Детское кресло\n" : "")@(Model[i].IsOptimised ? "Маршрут оптимизирован\n" : "")@("Время отправления - " + Model[i].StartTime.ToString() + "\n")</pre>
+                        <div class="controls">
+                            @using (Ajax.BeginForm("ReturnMap", new AjaxOptions { UpdateTargetId = "supermap" }))
+                            {
+                                <button class="act-but" name="id" value=@Model[i].OrderID> Отобразить маршрут </button>
+                            }
+                            @using (Ajax.BeginForm("FreeOrdersPartial", new AjaxOptions { UpdateTargetId = "orders" }))
+                            {
+                                <button class="act-but" name="id" value=@Model[i].OrderID>Взять заказ</button>
+                            }
+                        </div>
+                    </div>
+                    <br />
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Model.Count; i++)
+                {
+                    <div style=" margin-top:100px;">
+                        <input class="hide" id="hd-@i" type="checkbox" />
+                        <label for="hd-@i">Начало маршрута - @Model[i].StartGPS, Стоимость - @Model[i].Cost р., Расстояние - @Model[i].Distance км.</label>
+                        <div class="hiddenblock" style="overflow:auto;">
+                            <pre>Начало - @Model[i].StartGPS
+Конец - @Model[i].EndGPS
+@(Model[i].IntermediateGPS1 != "null" ? "Остановка - " + Model[i].IntermediateGPS1 + "\n" : "")@(Model[i].IntermediateGPS2 != "null" ? "Остановка - " + Model[i].IntermediateGPS2 + "\n" : "")@(Model[i].IntermediateGPS3 != "null" ? "Остановка - " + Model[i].IntermediateGPS3 + "\n" : "")Стоимость - @Model[i].Cost р.,
+Расстояние - @Model[i].Distance км.,
+@(Model[i].IsChild ? "Детское кресло\n" : "")@(Model[i].IsOptimised ? "Маршрут оптимизирован\n" : "")@("Время отправления - " + Model[i].StartTime.ToString() + "\n")</pre>
+                        </div><p></p>
+                        <div class="controls">
+                            @using (Ajax.BeginForm("ReturnMap", new AjaxOptions { UpdateTargetId = "supermap" }))
+                            {
+                                <button class="act-but" name="id" value=@Model[i].OrderID> Отобразить маршрут </button>
+                            }
+                            @using (Html.BeginForm("Same", "Driver"))
+                            {
+                                <input type="hidden" name="Number" value="@Model[i].OrderID" />
+                                <button class="act-but" name="actionName" value="done">Заказ выполнен</button>
+                                <button class="act-but" name="actionName" value="cancel">Отменить</button>
+                            }
+                       </div>
+                    </div>
+                }
+            }
+        }
+    </div>
+</body>

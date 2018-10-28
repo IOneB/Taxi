@@ -1,0 +1,73 @@
+﻿@model Курсач.Models.ViewModel
+        <br />
+<p style="color:red;">@(ViewBag.Error == null ? "" : ViewBag.Error)</p>
+@using (Ajax.BeginForm("CallForm", "Admin", new AjaxOptions { UpdateTargetId = "form-content" }))
+{
+    <button onClick="getElementById('modal').removeAttribute('style'); getElementById('lock').style.overflow = 'hidden';" name="name" value="brand">Добавить марку</button>
+}
+<br />
+<style>
+    table{
+        max-width:700px;
+    }
+</style>
+<div class="wrappertable">
+    <table class="table adapt-table">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Марка
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Brands)
+            {
+                <tr>
+                    <td>
+                        @item.BrandID
+                    </td>
+                    <td>
+                        @item.BrandName
+                    </td>
+                    <td class="man-but">
+                        @using (Ajax.BeginForm("CallForm", "Admin", new AjaxOptions { UpdateTargetId = "form-content" }))
+                        {
+                            <button onClick="getElementById('modal').removeAttribute('style'); getElementById('lock').style.overflow = 'hidden';"
+                                    name="name" value="brand">
+                                Редактировать
+                            </button>
+                                    <input type="hidden" name="id" value=@item.BrandID class="manage-button" />
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="pages">
+
+    @using (Ajax.BeginForm("Modering", new AjaxOptions { UpdateTargetId = "results" }))
+    {
+        <input type="hidden" name="selected" value="brands" />
+        <div class="nav-button">
+            <button class="component" type="submit" name="navig" value="prev" @(ViewBag.NumberPage==1?"disabled":"")><</button>
+            <button class="component" type="submit" name="navig" value="next"@(ViewBag.NumberPage == ViewBag.TotalPages ? "disabled":"")>></button>
+        </div>
+        <br />
+        <select class="page" name="page">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <option value=@i @(i == ViewBag.NumberPage ? "selected=\"selected\"" : "")>@i</option>
+            }
+        </select>
+        <button class="component" type="submit">Ok</button>
+    }
+</div>

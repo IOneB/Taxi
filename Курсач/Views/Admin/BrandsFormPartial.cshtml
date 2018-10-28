@@ -1,0 +1,23 @@
+﻿@model Курсач.Models.Brand
+<h4>Марки</h4>
+@using (Ajax.BeginForm("SaveBrand", "Admin", new AjaxOptions { UpdateTargetId = "results" }, new { @class = "ajax-form" }))
+{
+    <input type="hidden" name="id" value="@(Model == null ? "" : Model.BrandID.ToString())" />
+    <div>
+        <label for="BrandName">Наименование</label>
+        <input id="BrandName" name="BrandName" type="text" value="@(Model == null ? "" : Model.BrandName)">
+    </div>
+    <div>
+        <input type="submit" value="@(Model == null ? "Добавить" : "Сохранить изменения")" class="manage-button" onclick="
+    getElementById('modal').style.display = 'none';
+    getElementById('lock').style.overflow = 'auto';
+    " style="margin-top:5px;" />
+        <button type="button"
+                onclick="
+    getElementById('modal').style.display = 'none';
+    getElementById('lock').style.overflow = 'auto';
+    ">
+            Отмена
+        </button>
+    </div>
+}

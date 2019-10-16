@@ -120,7 +120,7 @@ namespace Курсач.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email,
-                    DiscountID = 3, PhoneNumber = model.PhoneNumber, FIO=model.FIO };
+                     PhoneNumber = model.PhoneNumber, FIO=model.FIO };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

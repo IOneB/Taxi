@@ -26,7 +26,11 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
+<PropertyGroup>
+    <LangVersion>latest</LangVersion>
+</PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -191,6 +195,7 @@
       <HintPath>..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.3.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
@@ -246,12 +251,9 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -290,6 +292,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
     </Reference>
@@ -385,97 +388,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201711240240520_InitialCreate.cs" />
-    <Compile Include="Migrations\201711240240520_InitialCreate.Designer.cs">
-      <DependentUpon>201711240240520_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711240457141_MigrateDB.cs" />
-    <Compile Include="Migrations\201711240457141_MigrateDB.Designer.cs">
-      <DependentUpon>201711240457141_MigrateDB.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711300809208_MigrationDB.cs" />
-    <Compile Include="Migrations\201711300809208_MigrationDB.Designer.cs">
-      <DependentUpon>201711300809208_MigrationDB.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711301615089_asd.cs" />
-    <Compile Include="Migrations\201711301615089_asd.Designer.cs">
-      <DependentUpon>201711301615089_asd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712300116172_Order.cs" />
-    <Compile Include="Migrations\201712300116172_Order.Designer.cs">
-      <DependentUpon>201712300116172_Order.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801030557347_MigrateDB1.cs" />
-    <Compile Include="Migrations\201801030557347_MigrateDB1.Designer.cs">
-      <DependentUpon>201801030557347_MigrateDB1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801110533391_MigrationDB1.cs" />
-    <Compile Include="Migrations\201801110533391_MigrationDB1.Designer.cs">
-      <DependentUpon>201801110533391_MigrationDB1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801110536580_MigrationDB2.cs" />
-    <Compile Include="Migrations\201801110536580_MigrationDB2.Designer.cs">
-      <DependentUpon>201801110536580_MigrationDB2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801130328106_Optimised.cs" />
-    <Compile Include="Migrations\201801130328106_Optimised.Designer.cs">
-      <DependentUpon>201801130328106_Optimised.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801150231021_firstValid.cs" />
-    <Compile Include="Migrations\201801150231021_firstValid.Designer.cs">
-      <DependentUpon>201801150231021_firstValid.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801150240260_firstValid1.cs" />
-    <Compile Include="Migrations\201801150240260_firstValid1.Designer.cs">
-      <DependentUpon>201801150240260_firstValid1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801160229367_fio.cs" />
-    <Compile Include="Migrations\201801160229367_fio.Designer.cs">
-      <DependentUpon>201801160229367_fio.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801171119278_ms.cs" />
-    <Compile Include="Migrations\201801171119278_ms.Designer.cs">
-      <DependentUpon>201801171119278_ms.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801171121440_ms1.cs" />
-    <Compile Include="Migrations\201801171121440_ms1.Designer.cs">
-      <DependentUpon>201801171121440_ms1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801171123308_ms2.cs" />
-    <Compile Include="Migrations\201801171123308_ms2.Designer.cs">
-      <DependentUpon>201801171123308_ms2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801171124184_ms3.cs" />
-    <Compile Include="Migrations\201801171124184_ms3.Designer.cs">
-      <DependentUpon>201801171124184_ms3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801171125443_ms4.cs" />
-    <Compile Include="Migrations\201801171125443_ms4.Designer.cs">
-      <DependentUpon>201801171125443_ms4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801171129490_ms5.cs" />
-    <Compile Include="Migrations\201801171129490_ms5.Designer.cs">
-      <DependentUpon>201801171129490_ms5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801171131487_ms6.cs" />
-    <Compile Include="Migrations\201801171131487_ms6.Designer.cs">
-      <DependentUpon>201801171131487_ms6.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801171335015_mig.cs" />
-    <Compile Include="Migrations\201801171335015_mig.Designer.cs">
-      <DependentUpon>201801171335015_mig.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801172044095_migr.cs" />
-    <Compile Include="Migrations\201801172044095_migr.Designer.cs">
-      <DependentUpon>201801172044095_migr.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802110529475_MigrShip.cs" />
-    <Compile Include="Migrations\201802110529475_MigrShip.Designer.cs">
-      <DependentUpon>201802110529475_MigrShip.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802110554539_MigrShipment.cs" />
-    <Compile Include="Migrations\201802110554539_MigrShipment.Designer.cs">
-      <DependentUpon>201802110554539_MigrShipment.cs</DependentUpon>
+    <Compile Include="Migrations\201910160919466_modelMigration.cs" />
+    <Compile Include="Migrations\201910160919466_modelMigration.Designer.cs">
+      <DependentUpon>201910160919466_modelMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -496,10 +411,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\TaxiDB.mdf" />
-    <Content Include="App_Data\TaxiDB_log.ldf">
-      <DependentUpon>TaxiDB.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Cheat-cot-cute.png" />
@@ -523,7 +434,6 @@
     </Content>
     <Content Include="Grid.mvc.readme" />
     <Content Include="Content\MvcGrid\Fonts\GridGlyphs.woff" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Drivermap.control.js" />
     <Content Include="Scripts\gridmvc.js" />
@@ -609,7 +519,10 @@
     <Content Include="Views\Manage\Edit.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>
@@ -624,74 +537,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711240240520_InitialCreate.resx">
-      <DependentUpon>201711240240520_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711240457141_MigrateDB.resx">
-      <DependentUpon>201711240457141_MigrateDB.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711300809208_MigrationDB.resx">
-      <DependentUpon>201711300809208_MigrationDB.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711301615089_asd.resx">
-      <DependentUpon>201711301615089_asd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712300116172_Order.resx">
-      <DependentUpon>201712300116172_Order.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801030557347_MigrateDB1.resx">
-      <DependentUpon>201801030557347_MigrateDB1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801110533391_MigrationDB1.resx">
-      <DependentUpon>201801110533391_MigrationDB1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801110536580_MigrationDB2.resx">
-      <DependentUpon>201801110536580_MigrationDB2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801130328106_Optimised.resx">
-      <DependentUpon>201801130328106_Optimised.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801150231021_firstValid.resx">
-      <DependentUpon>201801150231021_firstValid.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801150240260_firstValid1.resx">
-      <DependentUpon>201801150240260_firstValid1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801160229367_fio.resx">
-      <DependentUpon>201801160229367_fio.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801171119278_ms.resx">
-      <DependentUpon>201801171119278_ms.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801171121440_ms1.resx">
-      <DependentUpon>201801171121440_ms1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801171123308_ms2.resx">
-      <DependentUpon>201801171123308_ms2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801171124184_ms3.resx">
-      <DependentUpon>201801171124184_ms3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801171125443_ms4.resx">
-      <DependentUpon>201801171125443_ms4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801171129490_ms5.resx">
-      <DependentUpon>201801171129490_ms5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801171131487_ms6.resx">
-      <DependentUpon>201801171131487_ms6.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801171335015_mig.resx">
-      <DependentUpon>201801171335015_mig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801172044095_migr.resx">
-      <DependentUpon>201801172044095_migr.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802110529475_MigrShip.resx">
-      <DependentUpon>201802110529475_MigrShip.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802110554539_MigrShipment.resx">
-      <DependentUpon>201802110554539_MigrShipment.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910160919466_modelMigration.resx">
+      <DependentUpon>201910160919466_modelMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

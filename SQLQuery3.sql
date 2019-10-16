@@ -1,1 +1,0 @@
-﻿INSERT INTO Colours (ColourName) VALUES ('Green');

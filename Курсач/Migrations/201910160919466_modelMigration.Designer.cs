@@ -7,13 +7,13 @@ namespace Курсач.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class MigrShip : IMigrationMetadata
+    public sealed partial class modelMigration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(MigrShip));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(modelMigration));
         
         string IMigrationMetadata.Id
         {
-            get { return "201802110529475_MigrShip"; }
+            get { return "201910160919466_modelMigration"; }
         }
         
         string IMigrationMetadata.Source

@@ -3,7 +3,7 @@ namespace Курсач.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class modelMigration : DbMigration
     {
         public override void Up()
         {
@@ -37,7 +37,7 @@ namespace Курсач.Migrations
                 c => new
                     {
                         ColourID = c.Int(nullable: false, identity: true),
-                        ColourName = c.String(),
+                        ColourName = c.String(nullable: false, maxLength: 50),
                     })
                 .PrimaryKey(t => t.ColourID);
             
@@ -50,12 +50,15 @@ namespace Курсач.Migrations
                         LastName = c.String(),
                         Patronymic = c.String(),
                         BirthDate = c.DateTime(nullable: false),
-                        Experience = c.DateTime(nullable: false),
+                        Experience = c.Int(nullable: false),
                         CarID = c.Int(nullable: false),
+                        User_Id = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.DriverID)
                 .ForeignKey("dbo.Cars", t => t.CarID, cascadeDelete: true)
-                .Index(t => t.CarID);
+                .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
+                .Index(t => t.CarID)
+                .Index(t => t.User_Id);
             
             CreateTable(
                 "dbo.Orders",
@@ -63,20 +66,26 @@ namespace Курсач.Migrations
                     {
                         OrderID = c.Int(nullable: false, identity: true),
                         DriverID = c.Int(),
+                        SystemStartTime = c.DateTime(nullable: false),
                         StartTime = c.DateTime(nullable: false),
-                        EndTime = c.DateTime(nullable: false),
-                        IsActive = c.Boolean(nullable: false),
-                        ApplicationUserID = c.Int(),
+                        SystemEndTime = c.DateTime(nullable: false),
+                        IsChild = c.Boolean(nullable: false),
+                        IsOptimised = c.Boolean(nullable: false),
+                        IsShipment = c.Boolean(nullable: false),
+                        ApplicationUserID = c.String(maxLength: 128),
                         StartGPS = c.String(),
+                        IntermediateGPS1 = c.String(),
+                        IntermediateGPS2 = c.String(),
+                        IntermediateGPS3 = c.String(),
                         EndGPS = c.String(),
+                        Distance = c.Double(nullable: false),
                         Cost = c.Double(nullable: false),
-                        ApplicationUser_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.OrderID)
-                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUserID)
                 .ForeignKey("dbo.Drivers", t => t.DriverID)
                 .Index(t => t.DriverID)
-                .Index(t => t.ApplicationUser_Id);
+                .Index(t => t.ApplicationUserID);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -84,6 +93,7 @@ namespace Курсач.Migrations
                     {
                         Id = c.String(nullable: false, maxLength: 128),
                         DiscountID = c.Int(),
+                        FIO = c.String(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -150,6 +160,30 @@ namespace Курсач.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
+                "dbo.OrderStates",
+                c => new
+                    {
+                        date = c.DateTime(nullable: false),
+                        OrderID = c.Int(nullable: false),
+                        StateID = c.Int(nullable: false),
+                        user = c.String(),
+                    })
+                .PrimaryKey(t => new { t.date, t.OrderID, t.StateID })
+                .ForeignKey("dbo.Orders", t => t.OrderID, cascadeDelete: true)
+                .ForeignKey("dbo.States", t => t.StateID, cascadeDelete: true)
+                .Index(t => t.OrderID)
+                .Index(t => t.StateID);
+            
+            CreateTable(
+                "dbo.States",
+                c => new
+                    {
+                        StateID = c.Int(nullable: false, identity: true),
+                        StateName = c.String(),
+                    })
+                .PrimaryKey(t => t.StateID);
+            
+            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -164,9 +198,12 @@ namespace Курсач.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Drivers", "User_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.OrderStates", "StateID", "dbo.States");
+            DropForeignKey("dbo.OrderStates", "OrderID", "dbo.Orders");
             DropForeignKey("dbo.Orders", "DriverID", "dbo.Drivers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Orders", "ApplicationUser_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Orders", "ApplicationUserID", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUsers", "DiscountID", "dbo.Discounts");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
@@ -174,18 +211,23 @@ namespace Курсач.Migrations
             DropForeignKey("dbo.Cars", "ColourID", "dbo.Colours");
             DropForeignKey("dbo.Cars", "BrandID", "dbo.Brands");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.OrderStates", new[] { "StateID" });
+            DropIndex("dbo.OrderStates", new[] { "OrderID" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUsers", new[] { "DiscountID" });
-            DropIndex("dbo.Orders", new[] { "ApplicationUser_Id" });
+            DropIndex("dbo.Orders", new[] { "ApplicationUserID" });
             DropIndex("dbo.Orders", new[] { "DriverID" });
+            DropIndex("dbo.Drivers", new[] { "User_Id" });
             DropIndex("dbo.Drivers", new[] { "CarID" });
             DropIndex("dbo.Cars", new[] { "ColourID" });
             DropIndex("dbo.Cars", new[] { "BrandID" });
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.States");
+            DropTable("dbo.OrderStates");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.Discounts");

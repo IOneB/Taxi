@@ -482,18 +482,5 @@ namespace Курсач.Controllers
                     }
             }
         }
-        //[Authorize(Roles = "Admin")]
-        //public ActionResult ClearOldOrders()
-        //{
-        //    foreach (Order order in db.Orders/*.Where(/*o=>o.State=="Принят")*/)
-        //    {
-        //        //if ((DateTime.Now - order.StartTime).Days > 1)
-        //            //order.State = "Истек срок";
-        //    }
-        //    db.SaveChanges();
-        //    PartialViewResult result = Modering("orders", 1, "") as PartialViewResult;
-        //    return PartialView(result.ViewName, result.Model);
-        //}
-
     }
 }
